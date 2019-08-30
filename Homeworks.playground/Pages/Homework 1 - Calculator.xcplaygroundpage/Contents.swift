@@ -1,50 +1,82 @@
+
 import PlaygroundSupport
 import UIKit
 
-public class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
+enum ArithmeticOperator {
+    case addition
+    case subtraction
+    case multiplication
+    case division
+    
+    var function: (Double, Double) -> Double {
+        switch self {
+        case .addition: return { $0 + $1 }
+        case .subtraction: return { $0 - $1 }
+        case .multiplication: return { $0 * $1 }
+        case .division: return { $0 / $1 }
+        }
+    }
+    
+    init?(_ calculatorKey: CalculatorKey) {
+        switch calculatorKey {
+        case .add:
+            self = .addition
+        case .subtract:
+            self = .subtraction
+        case .multiply:
+            self = .multiplication
+        case .divide:
+            self = .division
+        default:
+            return nil
+        }
+    }
+}
+
+enum ControllerError: Error {
+    case invalidDisplaytext
+    case invalidValue
+}
+
+class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
     var displayText = "0"
     var leftValue: Double?
     var rightValue: Double?
-    var getOperator = ""
+    var arithmeticOperator: ArithmeticOperator?
     var isOperatorPressed = false
     var isEqualPressed = false
     var isOperatorPressedAfterOperator = false
     var isDotPressed = false
     
-    public func calculatorView(_ calculatorView: CalculatorView, didPress key: CalculatorKey) {
+    
+    public func calculatorView(_ calculatorView: CalculatorView, didPress key: CalculatorKey) throws {
         switch key {
         case .clear:
             displayText = "0"
-            leftValue = 0
-            rightValue = 0
-            getOperator = ""
+            leftValue = nil
+            rightValue = nil
+            arithmeticOperator = nil
             isOperatorPressed = false
             isEqualPressed = false
             isOperatorPressedAfterOperator = false
             isDotPressed = false
-            
         case .toggleSign:
             if displayText == "0" {
                 break
             }
-            if displayText.first == "-" {
-                displayText.removeFirst()
-            } else {
-                displayText = "-" + displayText
-            }
             
+            displayText.first == "-" ? (_ = displayText.removeFirst()) : (displayText = "-" + displayText)
         case .percent:
             if displayText == "0" {
                 break
             }
-            if let percentValue = Double(displayText) {
-                displayText = String(percentValue / 100)
+            guard let percentValue = Double(displayText) else {
+                throw ControllerError.invalidDisplaytext
+                //fatalError()
             }
+            displayText = String(percentValue / 100)
             
-        case .add,
-             .subtract,
-             .multiply,
-             .divide :
+        case .add, .subtract, .multiply, .divide:
             isOperatorPressed = true
             isEqualPressed = false
             if !isOperatorPressedAfterOperator {
@@ -52,58 +84,61 @@ public class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSou
             }
             if isOperatorPressedAfterOperator {
                 rightValue = Double(displayText)
-                leftValue = evaluate()
+                do {
+                    leftValue = try evaluate()
+                } catch ControllerError.invalidValue {
+                    print("Invalid Value")
+                }
+                do {
+                    leftValue = try evaluate()
+                } catch ControllerError.invalidValue {
+                    print("Invalid Value")
+                }
                 isOperatorPressedAfterOperator = false
             }
-            getOperator = key.rawValue
-            
+            arithmeticOperator = ArithmeticOperator(key)
         case .dot:
             if !isDotPressed {
                 displayText += "."
                 isDotPressed = true
             }
- 
         case .equal:
             if !isEqualPressed {
                 rightValue = Double(displayText)
             }
             isEqualPressed = true
-            leftValue = evaluate()
- 
+            do {
+                leftValue = try evaluate()
+            } catch ControllerError.invalidValue {
+                print("Invalid Value")
+            }
         default:
             if isOperatorPressed == true {
                 isOperatorPressed = false
                 isOperatorPressedAfterOperator = true
                 displayText = "0"
             }
-            if displayText == "0" {
-                displayText = key.rawValue
-            } else {
-                displayText += key.rawValue
-            }
+            
+            displayText == "0" ? (displayText = key.rawValue) : (displayText += key.rawValue)
         }
     }
 
-    public func evaluate() -> Double {
-        var result: Double = 0
-        switch getOperator {
-        case "+":
-            result = leftValue! + rightValue!
-        case "-":
-            result = leftValue! - rightValue!
-        case "×":
-            result = leftValue! * rightValue!
-        case "÷":
-            result = leftValue! / rightValue!
-        default:
-            break
+    public func evaluate() throws -> Double {
+        guard
+            let leftValue = leftValue,
+            let rightValue = rightValue,
+            let function = arithmeticOperator?.function else {
+            //fatalError()
+            throw ControllerError.invalidValue
         }
+        
+        let result = function(leftValue, rightValue)
         displayText = String(result)
         
         if displayText.hasSuffix(".0") {
-            displayText.removeLast()
-            displayText.removeLast()
+            displayText = String(displayText.dropLast(2))
         }
+    
         return result
     }
 
@@ -111,8 +146,6 @@ public class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSou
         return displayText
     }
 }
-
-
 
 
 // Internal Setup
@@ -123,5 +156,4 @@ setupCalculatorView(for: page, with: controller)
 // 1. Run the Playground (⌘Cmd + ⇧Shift + ↩Return)
 // 2. View Assistant Editors (⌘Cmd + ⌥Opt + ↩Return)
 // 3. Select Live View in the Assistant Editor tabs
-
 
