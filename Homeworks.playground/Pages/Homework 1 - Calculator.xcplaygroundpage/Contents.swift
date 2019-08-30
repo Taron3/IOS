@@ -33,12 +33,13 @@ enum ArithmeticOperator {
     }
 }
 
-enum ControllerError: Error {
-    case invalidDisplaytext
-    case invalidValue
-}
+//enum ControllerError: Error {
+//    case invalidDisplaytext
+//    case invalidValue
+//}
 
 class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
+    
     var displayText = "0"
     var leftValue: Double?
     var rightValue: Double?
@@ -49,7 +50,7 @@ class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
     var isDotPressed = false
     
     
-    public func calculatorView(_ calculatorView: CalculatorView, didPress key: CalculatorKey) throws {
+    public func calculatorView(_ calculatorView: CalculatorView, didPress key: CalculatorKey) /* throws */ {
         switch key {
         case .clear:
             displayText = "0"
@@ -71,8 +72,8 @@ class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
                 break
             }
             guard let percentValue = Double(displayText) else {
-                throw ControllerError.invalidDisplaytext
-                //fatalError()
+//                throw ControllerError.invalidDisplaytext
+                fatalError()
             }
             displayText = String(percentValue / 100)
             
@@ -84,16 +85,16 @@ class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
             }
             if isOperatorPressedAfterOperator {
                 rightValue = Double(displayText)
-                do {
-                    leftValue = try evaluate()
-                } catch ControllerError.invalidValue {
-                    print("Invalid Value")
-                }
-                do {
-                    leftValue = try evaluate()
-                } catch ControllerError.invalidValue {
-                    print("Invalid Value")
-                }
+//                do {
+                    leftValue = /* try */ evaluate()
+//                } catch ControllerError.invalidValue {
+//                    print("Invalid Value")
+//                }
+//                do {
+                    leftValue = /* try */ evaluate()
+//                } catch ControllerError.invalidValue {
+//                    print("Invalid Value")
+//                }
                 isOperatorPressedAfterOperator = false
             }
             arithmeticOperator = ArithmeticOperator(key)
@@ -107,11 +108,11 @@ class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
                 rightValue = Double(displayText)
             }
             isEqualPressed = true
-            do {
-                leftValue = try evaluate()
-            } catch ControllerError.invalidValue {
-                print("Invalid Value")
-            }
+//            do {
+                leftValue = /* try */ evaluate()
+//            } catch ControllerError.invalidValue {
+//                print("Invalid Value")
+//            }
         default:
             if isOperatorPressed == true {
                 isOperatorPressed = false
@@ -123,13 +124,13 @@ class Controller: NSObject, CalculatorViewDelegate, CalculatorViewDataSource {
         }
     }
 
-    public func evaluate() throws -> Double {
+    public func evaluate() /*t hrows */ -> Double {
         guard
             let leftValue = leftValue,
             let rightValue = rightValue,
             let function = arithmeticOperator?.function else {
-            //fatalError()
-            throw ControllerError.invalidValue
+            fatalError()
+//            throw ControllerError.invalidValue
         }
         
         let result = function(leftValue, rightValue)
