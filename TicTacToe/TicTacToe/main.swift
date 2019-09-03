@@ -31,12 +31,10 @@ struct Matrix<T> {
 struct TicTacToe {
     enum BoardSize: Int {
         case small = 3
-        case medium = 10
+        case medium = 15
         case large = 30
         
-        var side: Int {
-            return self.rawValue
-        }
+        var side: Int { return self.rawValue }
     }
     
     var board: Matrix<Character>
@@ -49,10 +47,10 @@ struct TicTacToe {
     mutating func game() -> Bool {
         let coordinates = readCoordinates()
         guard let i = coordinates?.rowCoordinate, let j = coordinates?.columnCoordinate else {
-            fatalError()
+            return false
         }
         
-        if isFirstPlayer && board[i, j] == nil {
+        if isFirstPlayer && board[i, j] == nil && board[i, j] != "X" && board[i, j] != "O" {
             print("\nO's Turn")
             isFirstPlayer = false
             board[i, j] = "X"
@@ -60,7 +58,7 @@ struct TicTacToe {
                 print("\n\n\nCongratulation 🥇\nX Wins!\n\n")
                 return true
             }
-        } else if !isFirstPlayer && board[i, j] == nil {
+        } else if !isFirstPlayer && board[i, j] == nil && board[i, j] != "X" && board[i, j] != "O" {
             print("\nX's Turn")
             isFirstPlayer = true
             board[i, j] = "O"
@@ -145,9 +143,7 @@ struct TicTacToe {
         
         return boardResultBuffer.hasSubsequence(of: char, count: winingRow)
     }
-    
-    
-    
+
 }
 
 
@@ -193,8 +189,8 @@ extension TicTacToe: CustomStringConvertible {
                     
                     str = lines.joined(separator: "\n")
                 } else {
-                    lines[i + (i + 1)].replaceCharacter(at: 3 + 6 * j, with: String(i))
-                    lines[i + (i + 1)].replaceCharacter(at: 5 + 6 * j, with: String(j))
+                    //lines[i + (i + 1)].replaceCharacter(at: 3 + 6 * j, with: String(i))
+                    //lines[i + (i + 1)].replaceCharacter(at: 5 + 6 * j, with: String(j))
                     str = lines.joined(separator: "\n")
                 }
             }
@@ -227,7 +223,9 @@ func getCoordinates(from str: String) -> (Int, Int)? {
 }
 
 
-var ticTacToe = TicTacToe(boardSize: .medium)
+
+var ticTacToe = TicTacToe(boardSize: .small)
+
 gameLoop: while true {
     print(ticTacToe)
     if ticTacToe.game() {
