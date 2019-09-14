@@ -20,11 +20,8 @@ class ViewController: UIViewController {
     
     @IBAction func touchButton(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender) {
-            if !game.cards[cardNumber].isFaceUp {
-                flipCount += 1
-            }
+            flipCount += 1
             game.chooseCard(at: cardNumber)
-            
             updateViewFromModel()
         }
     }
@@ -48,16 +45,18 @@ class ViewController: UIViewController {
             let button = cardButtons[index]
             let card = game.cards[index]
             if card.isFaceUp {
+                button.isEnabled = false
                 button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 button.setTitle(emoji(for: card), for: UIControl.State.normal)
                 if game.isFaceUpTwoCards {
-                        Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { (nil) in
+                        Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { _ in
                         button.backgroundColor = #colorLiteral(red: 0.9106613994, green: 0.7467906475, blue: 0.5529863238, alpha: 1)
                         button.setTitle("", for: UIControl.State.normal)
+                        button.isEnabled = true
                         }
                     }
                 if game.isMatchedTwoCards {
-                    Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { (nil) in
+                    Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { _ in
                         button.backgroundColor = #colorLiteral(red: 0.3762938236, green: 0.9768045545, blue: 0.6371897408, alpha: 0)
                         button.setTitle("", for: UIControl.State.normal)
                         button.isEnabled = false
