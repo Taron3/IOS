@@ -90,9 +90,6 @@ enum PlayingCard: CaseIterable, CustomStringConvertible {
     
 }
 
-//var a = PlayingCard(rank: 3, suit: "♥️")!
-//print(a)
-//PlayingCard.allCases.forEach {print ($0)}
 
 
 

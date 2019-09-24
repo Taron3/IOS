@@ -9,7 +9,7 @@
 import UIKit
 
 class PlayingCardView: UIView {
-    var card = PlayingCard(rank: 7, suit: "♥️")! {
+    var card = PlayingCard(rank: 7, suit: "♦️")! {
         didSet {
             setNeedsLayout()
             setNeedsDisplay()
