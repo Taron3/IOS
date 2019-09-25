@@ -71,72 +71,52 @@ class PlayingCardView: UIView {
     }
     
     
-    func drawCenter(pipString: NSAttributedString, _ upDownFactor: CGFloat, _ leftRightFactor: CGFloat, _ centerFactor: CGFloat) {
-        let rank = card.order
-        if rank % 2 != 0 && rank != 7 {
-            pipString.draw(at: CGPoint(x: bounds.midX - centerFactor, y: bounds.midY - centerFactor)) // center
-        } else if rank == 7 {
-            pipString.draw(at: CGPoint( x: bounds.midX - centerFactor, y: bounds.midY - upDownFactor - centerFactor)) // upCenter
+    func drawPip(pipString: NSAttributedString,
+                 offset: (center: CGFloat, vertical: CGFloat, horizontal: CGFloat),
+                 position: (v: PipPosition.Vertical, h: PipPosition.Horizontal)) {
+        
+        switch position {
+        case (.top, .center):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.center, y: bounds.midY - 2 * offset.vertical - offset.center)) // topCenter
+        case (.midTop, .center):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.center, y: bounds.midY - offset.vertical - offset.center)) // center midTop
+        case (.center, .center):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.center, y: bounds.midY - offset.center)) // center
+        case (.midBottom, .center):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.center, y: bounds.midY + offset.vertical - offset.center)) // center midBottom
+        case (.bottom, .center):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.center, y: bounds.midY + 2 * offset.vertical - offset.center)) // bottomCenter
+        case (.top, _):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.horizontal - offset.center, y: bounds.midY - 2 * offset.vertical - offset.center)) // topLeft
+            pipString.draw(at: CGPoint(x: bounds.midX + offset.horizontal - offset.center, y: bounds.midY - 2 * offset.vertical - offset.center)) // topRight
+        case (.midTop, _):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.horizontal - offset.center, y: bounds.midY - offset.vertical / 2 - offset.center)) // upLeft
+            pipString.draw(at: CGPoint(x: bounds.midX + offset.horizontal - offset.center, y: bounds.midY - offset.vertical / 2 - offset.center)) // upRight
+        case (.center, _):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.horizontal - offset.center, y: bounds.midY - offset.center)) // leftCenter
+            pipString.draw(at: CGPoint(x: bounds.midX + offset.horizontal - offset.center, y: bounds.midY - offset.center)) // rightCenter
+        case (.midBottom, _):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.horizontal - offset.center, y: bounds.midY + offset.vertical / 2 - offset.center)) // downLeft
+            pipString.draw(at: CGPoint(x: bounds.midX + offset.horizontal - offset.center, y: bounds.midY + offset.vertical / 2 - offset.center)) // downRight
+        case (.bottom, _):
+            pipString.draw(at: CGPoint(x: bounds.midX - offset.horizontal - offset.center, y: bounds.midY + 2 * offset.vertical - offset.center)) // bottomLeft
+            pipString.draw(at: CGPoint(x: bounds.midX + offset.horizontal - offset.center, y: bounds.midY + 2 * offset.vertical - offset.center)) // bottomRight
         }
     }
     
-    func drawTopBottomCenter(pipString: NSAttributedString, _ upDownFactor: CGFloat, _ leftRightFactor: CGFloat, _ centerFactor: CGFloat) {
-        pipString.draw(at: CGPoint(x: bounds.midX - centerFactor, y: bounds.midY - 2 * upDownFactor - centerFactor)) // topCenter
-        pipString.draw(at: CGPoint(x: bounds.midX - centerFactor, y: bounds.midY + 2 * upDownFactor - centerFactor)) // bottomCenter
-    }
-    
-    func drawCorner(pipString: NSAttributedString, _ upDownFactor: CGFloat, _ leftRightFactor: CGFloat, _ centerFactor: CGFloat) {
-        pipString.draw(at: CGPoint(x: bounds.midX - leftRightFactor - centerFactor, y: bounds.midY - 2 * upDownFactor - centerFactor)) // topLeft
-        pipString.draw(at: CGPoint(x: bounds.midX + leftRightFactor - centerFactor, y: bounds.midY - 2 * upDownFactor - centerFactor)) // topRight
-        pipString.draw(at: CGPoint(x: bounds.midX - leftRightFactor - centerFactor, y: bounds.midY + 2 * upDownFactor - centerFactor)) // bottomLeft
-        pipString.draw(at: CGPoint(x: bounds.midX + leftRightFactor - centerFactor, y: bounds.midY + 2 * upDownFactor - centerFactor)) // bottomRight
-    }
-    
-    func drawLeftRightCenter(pipString: NSAttributedString, _ upDownFactor: CGFloat, _ leftRightFactor: CGFloat, _ centerFactor: CGFloat) {
-        pipString.draw(at: CGPoint(x: bounds.midX - leftRightFactor - centerFactor, y: bounds.midY - centerFactor)) // leftCenter
-        pipString.draw(at: CGPoint(x: bounds.midX + leftRightFactor - centerFactor, y: bounds.midY - centerFactor)) // rightCenter
-    }
-    
-    func drawUpDownCorner(pipString: NSAttributedString, _ upDownFactor: CGFloat, _ leftRightFactor: CGFloat, _ centerFactor: CGFloat) {
-        pipString.draw(at: CGPoint(x: bounds.midX - leftRightFactor - centerFactor, y: bounds.midY - upDownFactor / 2 - centerFactor)) // upLeft
-        pipString.draw(at: CGPoint(x: bounds.midX + leftRightFactor - centerFactor, y: bounds.midY - upDownFactor / 2 - centerFactor)) // upRight
-        pipString.draw(at: CGPoint(x: bounds.midX - leftRightFactor - centerFactor, y: bounds.midY + upDownFactor / 2 - centerFactor)) // downLeft
-        pipString.draw(at: CGPoint(x: bounds.midX + leftRightFactor - centerFactor, y: bounds.midY + upDownFactor / 2 - centerFactor)) // downRight
-    }
-    
-    func drawUpDownCenter(pipString: NSAttributedString, _ upDownFactor: CGFloat, _ leftRightFactor: CGFloat, _ centerFactor: CGFloat) {
-        pipString.draw(at: CGPoint(x: bounds.midX - centerFactor, y: bounds.midY - upDownFactor - centerFactor)) // upCenter
-        pipString.draw(at: CGPoint(x: bounds.midX - centerFactor, y: bounds.midY + upDownFactor - centerFactor)) // downCenter
-    }
-    
-    func drawPips () {
+    func drawPips() {
         let rank = card.order
 
-        let upDownFactor = bounds.height / 6
-        let leftRightFactor = bounds.width / 4.5
         let fontSize: CGFloat = 0.2 * self.bounds.width
-        let centerFactor = fontSize / 2
         let pipString = centeredAttributedString(card.suit, fontSize: fontSize)
 
-        switch rank {
-        case 2...3:
-            drawTopBottomCenter(pipString: pipString, upDownFactor, leftRightFactor, centerFactor)
-        case 4...10:
-            drawCorner(pipString: pipString, upDownFactor, leftRightFactor, centerFactor)
-            if (6...8).contains(rank) {
-                drawLeftRightCenter(pipString: pipString, upDownFactor, leftRightFactor, centerFactor)
-            }
-            if (9...10).contains(rank) {
-                drawUpDownCorner(pipString: pipString, upDownFactor, leftRightFactor, centerFactor)
-            }
-            if rank == 8 || rank == 10 {
-                drawUpDownCenter(pipString: pipString, upDownFactor, leftRightFactor, centerFactor)
-            }
-        default:
-            break
-        }
+        let factors = (center: fontSize / 2,
+                       vertical: bounds.height / 6,
+                       horizontal: bounds.width / 4.5)
         
-        drawCenter(pipString: pipString, upDownFactor, leftRightFactor, centerFactor)
+        let positions = PipPosition.positions(from: rank)
+        
+        positions.forEach { self.drawPip(pipString: pipString, offset: factors, position: $0) }
     }
     
     override func draw(_ rect: CGRect) {
@@ -157,5 +137,4 @@ class PlayingCardView: UIView {
             }
         }
     }
-
 }

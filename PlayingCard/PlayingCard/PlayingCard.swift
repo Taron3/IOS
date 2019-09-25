@@ -8,6 +8,20 @@
 
 import Foundation
 
+extension PlayingCard {
+    struct Deck {
+        var cards = PlayingCard.allCases
+        
+        mutating func takeRandomCard() -> PlayingCard? {
+            if cards.count > 0 {
+                return cards.remove(at: Int.random(in: 0..<cards.count))
+            } else {
+                return nil
+            }
+        }
+    }
+}
+
 enum PlayingCard: CaseIterable, CustomStringConvertible {
     
     case numeric(Int, String)

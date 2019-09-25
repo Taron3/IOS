@@ -18,7 +18,7 @@ class PlayingCardViewController: UIViewController {
         }
     }
     
-    var deck = PlayingCardDeck()
+    var deck = PlayingCard.Deck()
     
     @objc func nextCard() {
         if let card = deck.takeRandomCard() {
