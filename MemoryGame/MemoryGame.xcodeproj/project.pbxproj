@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A335F9BD232F7CAC0096D746 /* MemoryGameThemeChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A335F9BC232F7CAC0096D746 /* MemoryGameThemeChooserViewController.swift */; };
 		A33B84912327D95900711533 /* MemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33B84902327D95900711533 /* MemoryGame.swift */; };
 		A33B84932327DA7000711533 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33B84922327DA7000711533 /* Card.swift */; };
 		A348F4F4231E9863006AD7DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A348F4F3231E9863006AD7DF /* AppDelegate.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A335F9BC232F7CAC0096D746 /* MemoryGameThemeChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGameThemeChooserViewController.swift; sourceTree = "<group>"; };
 		A33B84902327D95900711533 /* MemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGame.swift; sourceTree = "<group>"; };
 		A33B84922327DA7000711533 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		A348F4F0231E9863006AD7DF /* MemoryGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -25,7 +27,7 @@
 		A348F4F8231E9863006AD7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A348F4FA231E9866006AD7DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A348F4FD231E9866006AD7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A348F4FF231E9866006AD7DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A348F4FF231E9866006AD7DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +61,12 @@
 			isa = PBXGroup;
 			children = (
 				A348F505231E9DE4006AD7DF /* SuportingFiles */,
+				A348F4FC231E9866006AD7DF /* LaunchScreen.storyboard */,
 				A348F4F7231E9863006AD7DF /* Main.storyboard */,
+				A335F9BC232F7CAC0096D746 /* MemoryGameThemeChooserViewController.swift */,
+				A348F4F5231E9863006AD7DF /* ViewController.swift */,
 				A33B84902327D95900711533 /* MemoryGame.swift */,
 				A33B84922327DA7000711533 /* Card.swift */,
-				A348F4FC231E9866006AD7DF /* LaunchScreen.storyboard */,
-				A348F4FF231E9866006AD7DF /* Info.plist */,
-				A348F4F5231E9863006AD7DF /* ViewController.swift */,
 			);
 			path = MemoryGame;
 			sourceTree = "<group>";
@@ -72,6 +74,7 @@
 		A348F505231E9DE4006AD7DF /* SuportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				A348F4FF231E9866006AD7DF /* Info.plist */,
 				A348F4F3231E9863006AD7DF /* AppDelegate.swift */,
 				A348F4FA231E9866006AD7DF /* Assets.xcassets */,
 			);
@@ -153,6 +156,7 @@
 				A348F4F6231E9863006AD7DF /* ViewController.swift in Sources */,
 				A348F4F4231E9863006AD7DF /* AppDelegate.swift in Sources */,
 				A33B84932327DA7000711533 /* Card.swift in Sources */,
+				A335F9BD232F7CAC0096D746 /* MemoryGameThemeChooserViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +303,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8MUYKJ6V6M;
 				INFOPLIST_FILE = MemoryGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -316,6 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8MUYKJ6V6M;
 				INFOPLIST_FILE = MemoryGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

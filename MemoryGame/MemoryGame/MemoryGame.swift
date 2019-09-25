@@ -11,7 +11,17 @@ import Foundation
 class MemoryGame {
     var cards = [Card]()
     
-    var onlyOneFaceUpCardIndex: Int?
+    var onlyOneFaceUpCardIndex: Int? {
+        get {
+            let faceUpCardIndices = cards.indices.filter { cards[$0].isFaceUp }
+            return faceUpCardIndices.count == 1 ? faceUpCardIndices.first : nil
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = (newValue == index)
+            }
+        }
+    }
     
     var isFaceUpTwoCards = false
     var isMatchedTwoCards = false
@@ -19,7 +29,6 @@ class MemoryGame {
     init(numberOfPairsOfCards: Int) {
         for _ in 0..<numberOfPairsOfCards {
             let card = Card()
-            
             cards.append(card)
             cards.append(card)
         }
@@ -30,19 +39,14 @@ class MemoryGame {
         if !cards[index].isMatched {
             isMatchedTwoCards = false
             if let matchIndex = onlyOneFaceUpCardIndex, matchIndex != index {
-                if cards[matchIndex].identifier == cards[index].identifier {
+                if cards[matchIndex] == cards[index] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                     isMatchedTwoCards = true
                 }
                 cards[index].isFaceUp = true
-                onlyOneFaceUpCardIndex = nil
                 isFaceUpTwoCards = true
             } else {
-                for flipDownIndex in cards.indices {
-                    cards[flipDownIndex].isFaceUp = false
-                }
-                cards[index].isFaceUp = true
                 onlyOneFaceUpCardIndex = index
                 isFaceUpTwoCards = false
             }

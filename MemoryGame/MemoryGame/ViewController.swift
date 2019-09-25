@@ -8,11 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MemoryGameViewController: UIViewController {
     
     lazy var game = MemoryGame(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
     var flipCount: Int = 0 { didSet { flipCountLabel.text = "Flips: \(flipCount)" } }
-    let waitSeconds: Double = 1
     
     @IBOutlet weak var flipCountLabel: UILabel!
     
@@ -30,9 +29,8 @@ class ViewController: UIViewController {
         game = MemoryGame(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
         flipCount = 0
         emoji = [:]
-        emojiChoices = ["🐙", "🦑", "🦐", "🦞", "🦀", "🐡", "🐠", "🐳", "🐬", "🦈",
-                        "🐊", "🐋", "🐟", "🐅", "🐆", "🦓", "🦛", "🐘", "🦏", "🐫",
-                        "🐃", "🦘", "🦒", "🐂", "🐎"]
+        emojiChoices = theme ?? ""
+        
         for index in cardButtons.indices {
             let button = cardButtons[index]
             button.isEnabled = true
@@ -40,47 +38,56 @@ class ViewController: UIViewController {
         updateViewFromModel()
     }
     
+    let waitSeconds = 0.7
+    
     func updateViewFromModel() {
-        for index in cardButtons.indices {
-            let button = cardButtons[index]
-            let card = game.cards[index]
-            if card.isFaceUp {
-                button.isEnabled = false
-                button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-                button.setTitle(emoji(for: card), for: UIControl.State.normal)
-                if game.isFaceUpTwoCards {
+        if cardButtons != nil {
+            for index in cardButtons.indices {
+                let button = cardButtons[index]
+                let card = game.cards[index]
+                if card.isFaceUp {
+                    button.isEnabled = false
+                    button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                    button.setTitle(emoji(for: card), for: UIControl.State.normal)
+                    if game.isFaceUpTwoCards {
                         Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { _ in
-                        button.backgroundColor = #colorLiteral(red: 0.9106613994, green: 0.7467906475, blue: 0.5529863238, alpha: 1)
-                        button.setTitle("", for: UIControl.State.normal)
-                        button.isEnabled = true
+                            button.backgroundColor = #colorLiteral(red: 0.9106613994, green: 0.7467906475, blue: 0.5529863238, alpha: 1)
+                            button.setTitle("", for: UIControl.State.normal)
+                            button.isEnabled = true
                         }
                     }
-                if game.isMatchedTwoCards {
-                    Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { _ in
-                        button.backgroundColor = #colorLiteral(red: 0.3762938236, green: 0.9768045545, blue: 0.6371897408, alpha: 0)
-                        button.setTitle("", for: UIControl.State.normal)
-                        button.isEnabled = false
+                    if game.isMatchedTwoCards {
+                        Timer.scheduledTimer(withTimeInterval: waitSeconds, repeats: false) { _ in
+                            button.backgroundColor = #colorLiteral(red: 0.3762938236, green: 0.9768045545, blue: 0.6371897408, alpha: 0)
+                            button.setTitle("", for: UIControl.State.normal)
+                            button.isEnabled = false
+                        }
                     }
+                } else {
+                    button.backgroundColor = card.isMatched ? #colorLiteral(red: 0.3762938236, green: 0.9768045545, blue: 0.6371897408, alpha: 0) : #colorLiteral(red: 0.9106613994, green: 0.7467906475, blue: 0.5529863238, alpha: 1)
+                    button.setTitle("", for: UIControl.State.normal)
                 }
-            } else {
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 0.3762938236, green: 0.9768045545, blue: 0.6371897408, alpha: 0) : #colorLiteral(red: 0.9106613994, green: 0.7467906475, blue: 0.5529863238, alpha: 1)
-                button.setTitle("", for: UIControl.State.normal)
             }
         }
     }
     
-    var emojiChoices = ["🐙", "🦑", "🦐", "🦞", "🦀", "🐡", "🐠", "🐳", "🐬", "🦈",
-                        "🐊", "🐋", "🐟", "🐅", "🐆", "🦓", "🦛", "🐘", "🦏", "🐫",
-                        "🐃", "🦘", "🦒", "🐂", "🐎"]
+    var theme: String? {
+        didSet {
+            emojiChoices = theme ?? ""
+            emoji = [:]
+            updateViewFromModel()
+        }
+    }
     
-    var emoji = [Int: String]()
+    var emojiChoices = "🦆🦅🦉🦇🐝🐛🐌🦋🐞🐜🦟🦗🕷🦂🐢🦎🐍🦖🦕🐙🦑🦐🦞🦀🐡🐠🐳🐬🦈🐊🐋🐅🐆🦓🦛🐘🦏🐫🐃🦘🦒🐂🐎🐖🐏🐑🦙🐐🦌🐕🐩🐈🐓🦃🦚🦜🦢🕊🐇🦝🦡🐁🐀🐿🦔🐉"
+    var emoji = [Card: String]()
     
     func emoji(for card: Card) -> String {
-        let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-        if emoji[card.identifier] == nil && emojiChoices.count > 0 {
-                emoji[card.identifier] = emojiChoices.remove(at: randomIndex)
-            }
-        return emoji[card.identifier] ?? "?"
+        if emoji[card] == nil && emojiChoices.count > 0 {
+            let randomStringIndex = emojiChoices.index(emojiChoices.startIndex, offsetBy: Int.random(in: 0...emojiChoices.count)) // jiChoices.count.arc4random)
+            emoji[card] = String(emojiChoices.remove(at: randomStringIndex))
+        }
+        return emoji[card] ?? "?0"
     }
 }
 
