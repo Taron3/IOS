@@ -19,7 +19,15 @@ class PlayingCardView: UIView {
     lazy var upperLeftLabel: UILabel = createLabel()
     lazy var lowerRightLabel: UILabel = createLabel()
     
-    var isFlipped = false {
+    var isFaceUp = false {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
+    // for pinch
+    var faceCardScale: CGFloat = SizeRatio.faceCardImageSizeToBoundsSize {
         didSet {
             setNeedsLayout()
             setNeedsDisplay()
@@ -52,22 +60,22 @@ class PlayingCardView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let fontSize: CGFloat = 0.1 * self.bounds.width
-        let attributesString = centeredAttributedString(card.description, fontSize: fontSize)
+        let attributesString = centeredAttributedString(card.description, fontSize: cornerFontSize)
         
-        let offset: CGFloat = 20
         upperLeftLabel.attributedText = attributesString
         upperLeftLabel.frame = CGRect.zero
         upperLeftLabel.sizeToFit()
-        upperLeftLabel.frame = CGRect(x: offset, y: offset, width: upperLeftLabel.frame.width, height: upperLeftLabel.frame.height)
-        upperLeftLabel.isHidden = isFlipped
-
+        upperLeftLabel.frame.origin = bounds.origin.offsetBy(dx: cornerOffset, dy: cornerOffset)
+        upperLeftLabel.isHidden = !isFaceUp
+        
         lowerRightLabel.attributedText = attributesString
         lowerRightLabel.frame = CGRect.zero
         lowerRightLabel.sizeToFit()
-        lowerRightLabel.frame = CGRect(x: bounds.maxX - offset - lowerRightLabel.frame.width, y: bounds.maxY - offset - lowerRightLabel.frame.height, width: lowerRightLabel.frame.width, height: lowerRightLabel.frame.height)
+        lowerRightLabel.frame.origin = CGPoint(x: bounds.maxX, y: bounds.maxY)
+                                        .offsetBy(dx: -cornerOffset, dy: -cornerOffset)
+                                        .offsetBy(dx: -lowerRightLabel.frame.width, dy: -lowerRightLabel.frame.height)
         lowerRightLabel.transform = CGAffineTransform.identity.rotated(by: CGFloat.pi)
-        lowerRightLabel.isHidden = isFlipped
+        lowerRightLabel.isHidden = !isFaceUp
     }
     
     
@@ -107,10 +115,10 @@ class PlayingCardView: UIView {
     func drawPips() {
         let rank = card.order
 
-        let fontSize: CGFloat = 0.2 * self.bounds.width
-        let pipString = centeredAttributedString(card.suit, fontSize: fontSize)
+        // MARK: fontSize
+        let pipString = centeredAttributedString(card.suit, fontSize: cornerFontSize)
 
-        let factors = (center: fontSize / 2,
+        let factors = (center: cornerFontSize / 2,
                        vertical: bounds.height / 6,
                        horizontal: bounds.width / 4.5)
         
@@ -120,21 +128,76 @@ class PlayingCardView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: 20)
+        let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)
         roundedRect.addClip()
         UIColor.white.setFill()
+        UIColor.lightGray.setStroke()
         roundedRect.fill()
+        roundedRect.stroke()
         
-        if !isFlipped {
+        if isFaceUp {
             if let faceImg = UIImage(named: card.rank + card.suit) {
-                faceImg.draw(in: bounds)
+                faceImg.draw(in: bounds.zoom(by: faceCardScale)) // for pinch
             } else {
                 drawPips()
             }
-        } else {
-            if let backImage = UIImage(named: "back") {
-                backImage.draw(in: bounds)
-            }
+        } else if let backImage = UIImage(named: "back") {
+            //if let backImage = UIImage(named: "back") {
+            backImage.draw(in: bounds)
         }
     }
+    
+    
 }
+
+
+
+extension PlayingCardView {
+    
+    /// Ratios that determine the card's size
+    struct SizeRatio {
+        static let cornerFontSizeToBoundsHeight: CGFloat = 0.085
+        static let cornerRadiusToBoundsHeight: CGFloat = 0.06
+        static let cornerOffsetToCornerRadius: CGFloat = 0.33
+        static let faceCardImageSizeToBoundsSize: CGFloat = 0.95  // for pinch
+    }
+    
+    var cornerRadius: CGFloat {
+        return bounds.size.height * SizeRatio.cornerRadiusToBoundsHeight
+    }
+    
+    var cornerOffset: CGFloat {
+        return cornerRadius * SizeRatio.cornerOffsetToCornerRadius
+    }
+    
+    var cornerFontSize: CGFloat {
+        return bounds.size.height * SizeRatio.cornerFontSizeToBoundsHeight
+    }
+
+    
+}
+
+
+
+extension CGPoint {
+
+    func offsetBy(dx: CGFloat, dy: CGFloat) -> CGPoint {
+        return CGPoint(x: x + dx, y: y + dy)
+    }
+}
+
+// for pinch
+extension CGRect {
+    
+    // Zoom rect by given factor
+    func zoom(by zoomFactor: CGFloat) -> CGRect {
+        let zoomedWidth = size.width * zoomFactor
+        let zoomedHeight = size.height * zoomFactor
+        let originX = origin.x + (size.width - zoomedWidth) / 2
+        let originY = origin.y + (size.height - zoomedHeight) / 2
+        return CGRect(origin: CGPoint(x: originX,y: originY) , size: CGSize(width: zoomedWidth, height: zoomedHeight))
+    }
+    
+    
+}
+

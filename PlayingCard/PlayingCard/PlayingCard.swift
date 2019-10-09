@@ -22,7 +22,7 @@ extension PlayingCard {
     }
 }
 
-enum PlayingCard: CaseIterable, CustomStringConvertible {
+enum PlayingCard: CaseIterable, CustomStringConvertible, Equatable {
     
     case numeric(Int, String)
     case face(String, String)
@@ -100,6 +100,11 @@ enum PlayingCard: CaseIterable, CustomStringConvertible {
         case .face(let rank, let suit):
             return "\(rank)\n\(suit)"
         }
+    }
+    
+    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
+        return lhs.rank == rhs.rank
+            && lhs.suit == rhs.suit
     }
     
 }
