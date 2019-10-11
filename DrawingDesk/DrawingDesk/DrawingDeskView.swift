@@ -6,12 +6,18 @@
 //  Copyright © 2019 Taron. All rights reserved.
 //
 
+
 import UIKit
 
 class ShapeLayer: CAShapeLayer {
     override func contains(_ p: CGPoint) -> Bool {
-        return path?.contains(p) ?? false
-     }
+        guard let path = path?.copy(strokingWithWidth: max(lineWidth, 18),
+                                    lineCap: .round,
+                                    lineJoin: .round,
+                                    miterLimit: .nan) else { return false }
+        
+        return path.contains(p)
+    }
 
 }
 
@@ -31,6 +37,7 @@ class DrawingDeskView: UIView {
     var selectedLayer: ShapeLayer?
     var drawingLayer: ShapeLayer!
     var maskDrawingImageView = UIImageView()
+    
     var redoLayers = [CALayer]()
 
     override init(frame: CGRect) {

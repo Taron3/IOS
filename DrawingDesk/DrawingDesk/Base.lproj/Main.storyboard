@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,13 +41,13 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QJb-Jh-8Ng" customClass="RoundButton" customModule="DrawingDesk" customModuleProvider="target">
                                         <rect key="frame" x="38" y="0.0" width="30" height="30"/>
-                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="7CI-P9-OwJ"/>
                                             <constraint firstAttribute="height" constant="30" id="PSb-hL-USG"/>
                                         </constraints>
                                         <state key="normal">
-                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -85,7 +85,7 @@
                                             <constraint firstAttribute="height" constant="30" id="gT8-aR-0Zx"/>
                                         </constraints>
                                         <state key="normal">
-                                            <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -123,7 +123,7 @@
                                             <constraint firstAttribute="width" constant="30" id="fqU-vG-GYd"/>
                                         </constraints>
                                         <state key="normal">
-                                            <color key="titleColor" systemColor="systemPurpleColor" red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -228,41 +228,41 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="1LQ-NI-Yd5">
-                                <rect key="frame" x="23.5" y="375" width="328.5" height="114"/>
+                                <rect key="frame" x="17.5" y="375" width="340.5" height="114"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DDy-Sd-skb">
-                                        <rect key="frame" x="0.0" y="0.0" width="328.5" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="340.5" height="44"/>
                                         <subviews>
                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xji-Oj-r12">
-                                                <rect key="frame" x="0.0" y="0.0" width="126.5" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="138.5" height="44"/>
                                                 <state key="normal" image="size5"/>
                                                 <connections>
                                                     <action selector="touchSizeButton:" destination="PoM-8M-g8a" eventType="touchUpInside" id="4wR-zB-j2r"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qss-eG-FlO">
-                                                <rect key="frame" x="134.5" y="0.0" width="42.5" height="44"/>
+                                                <rect key="frame" x="146.5" y="0.0" width="42.5" height="44"/>
                                                 <state key="normal" image="size10"/>
                                                 <connections>
                                                     <action selector="touchSizeButton:" destination="PoM-8M-g8a" eventType="touchUpInside" id="pqc-dy-XsX"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGL-69-Ff1">
-                                                <rect key="frame" x="185" y="0.0" width="42.5" height="44"/>
+                                                <rect key="frame" x="197" y="0.0" width="42.5" height="44"/>
                                                 <state key="normal" image="size15"/>
                                                 <connections>
                                                     <action selector="touchSizeButton:" destination="PoM-8M-g8a" eventType="touchUpInside" id="k7q-tr-k0M"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="20" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xvi-LW-Day">
-                                                <rect key="frame" x="235.5" y="0.0" width="42.5" height="44"/>
+                                                <rect key="frame" x="247.5" y="0.0" width="42.5" height="44"/>
                                                 <state key="normal" image="size20"/>
                                                 <connections>
                                                     <action selector="touchSizeButton:" destination="PoM-8M-g8a" eventType="touchUpInside" id="nQ5-33-Nj2"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="30" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vOQ-CS-8dF">
-                                                <rect key="frame" x="286" y="0.0" width="42.5" height="44"/>
+                                                <rect key="frame" x="298" y="0.0" width="42.5" height="44"/>
                                                 <state key="normal" image="size25"/>
                                                 <connections>
                                                     <action selector="touchSizeButton:" destination="PoM-8M-g8a" eventType="touchUpInside" id="Tsw-gd-NYJ"/>
@@ -271,7 +271,7 @@
                                         </subviews>
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.80000000000000004" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="XD7-z0-GtO">
-                                        <rect key="frame" x="-2" y="84" width="332.5" height="31"/>
+                                        <rect key="frame" x="-2" y="84" width="344.5" height="31"/>
                                         <connections>
                                             <action selector="changeSlider:" destination="PoM-8M-g8a" eventType="valueChanged" id="ao8-Tg-Fda"/>
                                         </connections>
