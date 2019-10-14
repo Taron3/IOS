@@ -10,6 +10,16 @@
 import UIKit
 
 class ShapeLayer: CAShapeLayer {
+
+    var identifier = ShapeLayer.generateUniqueIdentifier()
+    
+    static var uniqueIdentifier = 0
+
+    static func generateUniqueIdentifier() -> Int {
+        uniqueIdentifier += 1
+        return uniqueIdentifier
+    }
+    
     override func contains(_ p: CGPoint) -> Bool {
         guard let path = path?.copy(strokingWithWidth: max(lineWidth, 18),
                                     lineCap: .round,
@@ -21,10 +31,18 @@ class ShapeLayer: CAShapeLayer {
 
 }
 
+
+
 class DrawingDeskView: UIView {
     enum Mode {
         case draw
         case move
+    }
+    
+    enum Action {
+        case draw(Int)
+        case move(Int, CGPoint)
+        
     }
     
     var mode: Mode = .draw
@@ -38,6 +56,8 @@ class DrawingDeskView: UIView {
     var drawingLayer: ShapeLayer!
     var maskDrawingImageView = UIImageView()
     
+    var undoActions = Stack<Action>()
+    var redoActions = Stack<Action>()
     var redoLayers = [CALayer]()
 
     override init(frame: CGRect) {
@@ -87,6 +107,7 @@ class DrawingDeskView: UIView {
         bezierPath.lineJoinStyle = .round
     }
     
+    // MARK: - Moving
     @objc func pan(recognizer: UIPanGestureRecognizer) {
         guard mode == .move else {
             return
@@ -103,6 +124,14 @@ class DrawingDeskView: UIView {
             
             let touchLocation = recognizer.location(in: self)
             selectLayer(at: touchLocation)
+            
+            guard let layer = selectedLayer else {
+                return
+            }
+            undoActions.push(.move(layer.identifier, touchLocation))
+            
+            redoActions = Stack<Action>()
+            redoLayers = []
             
         case .changed:
             guard let layer = selectedLayer else {
@@ -153,7 +182,7 @@ class DrawingDeskView: UIView {
     }
     
     
-    
+    // MARK: Drawing
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard mode == .draw else {
             return
@@ -161,6 +190,7 @@ class DrawingDeskView: UIView {
 
         updateMaskDrawingImageView()
         setupBezierPath()
+        redoActions = Stack<Action>()
         redoLayers = []
         
         let touch = touches.first!
@@ -213,6 +243,7 @@ class DrawingDeskView: UIView {
         drawingLayer.fillColor = nil
 
         layer.addSublayer(drawingLayer)
+        undoActions.push(.draw(drawingLayer.identifier))
  
         setNeedsDisplay()
     }
@@ -233,22 +264,89 @@ class DrawingDeskView: UIView {
         setNeedsDisplay()
     }
     
-    func undoStroke() {
+    // MARK: - Undo, Redo Manager
+
+    func getActiveLayer(for identifier: Int) -> CALayer? {
         guard layer.sublayers != nil else {
+            preconditionFailure("Sublayers is nil")
+        }
+        
+        let activeLayer = self.layer.sublayers!.first { layer in
+            guard let shapeLayer = layer as? ShapeLayer else {
+                preconditionFailure("Layer of type: \(type(of: layer))")
+            }
+            return shapeLayer.identifier == identifier
+        }
+        
+        return activeLayer
+    }
+    
+
+    func undoManager() {
+        guard !undoActions.isEmpty else {
             return
         }
         
-        let lastIndex = layer.sublayers!.count - 1
-        if lastIndex >= 1 {
-            redoLayers.append(layer.sublayers!.remove(at: lastIndex - 1))
+        let lastAction = undoActions.pop()
+        
+        switch lastAction {
+        case let .move(layerIdentifier, position):
+            undoMovedStroke(for: layerIdentifier, to: position)
+            
+        case .draw(let layerIdentifier):
+            undoStroke(for: layerIdentifier)
+        }
+
+    }
+    
+    
+    func undoStroke(for layerIdentifier: Int) {
+        if let drawedLayer = getActiveLayer(for: layerIdentifier) {
+            redoActions.push(.draw(layerIdentifier))
+            redoLayers.append(drawedLayer)
+            
+            drawedLayer.removeFromSuperlayer()
+        }
+    }
+    
+    func undoMovedStroke(for layerIdentifier: Int, to position: CGPoint) {
+        if let movedLayer = getActiveLayer(for: layerIdentifier) {
+            redoActions.push(.move(layerIdentifier, movedLayer.position))
+            movedLayer.position = position
         }
         
     }
     
-    func redoStroke() {
+    func redoManager() {
+        guard !redoActions.isEmpty else {
+            return
+        }
+        
+        let lastAction = redoActions.pop()
+        
+        switch lastAction {
+        case let .move(layerIdentifier, position):
+            redoMovedStroke(for: layerIdentifier, to: position)
+            
+        case .draw(let layerIdentifier):
+            redoStroke(for: layerIdentifier)
+            
+        }
+    }
+    
+    func redoMovedStroke(for layerIdentifier: Int, to position: CGPoint) {
+         if let movedLayer = getActiveLayer(for: layerIdentifier) {
+             undoActions.push(.move(layerIdentifier, movedLayer.position))
+             movedLayer.position = position
+         }
+    }
+    
+    func redoStroke(for layerIdentifier: Int) {
         guard layer.sublayers != nil else {
             return
         }
+        
+        undoActions.push(.draw(layerIdentifier))
         
         let lastIndex = layer.sublayers!.count - 1
         if let lastLayer = redoLayers.popLast() {

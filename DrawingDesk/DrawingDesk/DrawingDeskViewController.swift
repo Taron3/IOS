@@ -38,12 +38,12 @@ class DrawingDeskViewController: UIViewController {
     }
  
     @IBAction func undoButton(_ sender: UIButton) {
-        drawingDeskView.undoStroke()
+        drawingDeskView.undoManager()
     }
     
     
     @IBAction func redoButton(_ sender: UIButton) {
-        drawingDeskView.redoStroke()
+        drawingDeskView.redoManager()
     }
     
     @IBAction func changeMode(_ sender: UISegmentedControl) {

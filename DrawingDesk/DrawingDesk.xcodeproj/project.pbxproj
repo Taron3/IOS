@@ -14,6 +14,7 @@
 		A30C724E23337105004520A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A30C724C23337105004520A7 /* LaunchScreen.storyboard */; };
 		A30C72582333728D004520A7 /* DrawingDeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C72572333728D004520A7 /* DrawingDeskView.swift */; };
 		A35324EB233BA22F00F28BC4 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35324EA233BA22F00F28BC4 /* RoundButton.swift */; };
+		A37ED8212351BCB8000C6105 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37ED8202351BCB8000C6105 /* Stack.swift */; };
 		A37F015E2349FCBE0032A1CF /* PanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37F015D2349FCBE0032A1CF /* PanViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		A30C724F23337105004520A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A30C72572333728D004520A7 /* DrawingDeskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingDeskView.swift; sourceTree = "<group>"; };
 		A35324EA233BA22F00F28BC4 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		A37ED8202351BCB8000C6105 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		A37F015D2349FCBE0032A1CF /* PanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +65,7 @@
 				A35324EA233BA22F00F28BC4 /* RoundButton.swift */,
 				A30C724523337103004520A7 /* DrawingDeskViewController.swift */,
 				A30C72572333728D004520A7 /* DrawingDeskView.swift */,
+				A37ED8202351BCB8000C6105 /* Stack.swift */,
 				A30C724723337103004520A7 /* Main.storyboard */,
 				A37F015D2349FCBE0032A1CF /* PanViewController.swift */,
 				A30C724A23337105004520A7 /* Assets.xcassets */,
@@ -148,6 +151,7 @@
 				A30C724623337103004520A7 /* DrawingDeskViewController.swift in Sources */,
 				A30C72582333728D004520A7 /* DrawingDeskView.swift in Sources */,
 				A37F015E2349FCBE0032A1CF /* PanViewController.swift in Sources */,
+				A37ED8212351BCB8000C6105 /* Stack.swift in Sources */,
 				A30C724423337103004520A7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
