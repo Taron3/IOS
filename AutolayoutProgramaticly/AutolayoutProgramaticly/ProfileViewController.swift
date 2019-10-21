@@ -15,11 +15,11 @@ class ProfileViewController: UIViewController {
     var surnameLabel: UILabel!
     var profileContent: UIView!
     
-    var regularConstraintsImageView = [NSLayoutConstraint]()
     var compactConstraintsImageView = [NSLayoutConstraint]()
+    var regularConstraintsImageView = [NSLayoutConstraint]()
     
-    var regularConstraintsProfileContent = [NSLayoutConstraint]()
     var compactConstraintsProfileContent = [NSLayoutConstraint]()
+    var regularConstraintsProfileContent = [NSLayoutConstraint]()
     
     var user: User {
         guard let userImage = UIImage(named: "img") else {
@@ -45,13 +45,13 @@ class ProfileViewController: UIViewController {
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        regularConstraintsImageView = [
+        compactConstraintsImageView = [ ////
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1 / 3)
         ]
-        compactConstraintsImageView = [
+        regularConstraintsImageView = [
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1 / 2),
@@ -94,13 +94,13 @@ class ProfileViewController: UIViewController {
         
         profileContent.translatesAutoresizingMaskIntoConstraints = false
         
-        regularConstraintsProfileContent = [
+        compactConstraintsProfileContent = [
             profileContent.topAnchor.constraint(equalTo: surnameLabel.bottomAnchor, constant: 18),
             profileContent.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             profileContent.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             profileContent.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ]
-        compactConstraintsProfileContent = [
+        regularConstraintsProfileContent = [
             profileContent.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             profileContent.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 18),
             profileContent.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -111,16 +111,17 @@ class ProfileViewController: UIViewController {
     }
 
     func activateConstraints() {
-        NSLayoutConstraint.deactivate(regularConstraintsImageView + compactConstraintsImageView +
-                                      regularConstraintsProfileContent + compactConstraintsProfileContent)
+        NSLayoutConstraint.deactivate(compactConstraintsImageView + regularConstraintsImageView +
+                                      compactConstraintsProfileContent + regularConstraintsProfileContent)
         
-        if traitCollection.verticalSizeClass == .regular && UIDevice.current.userInterfaceIdiom == .phone {
-            NSLayoutConstraint.activate(regularConstraintsImageView + regularConstraintsProfileContent)
-                                         
-        } else {
+        if traitCollection.horizontalSizeClass == .compact {
             NSLayoutConstraint.activate(compactConstraintsImageView + compactConstraintsProfileContent)
+
+        } else {
+            NSLayoutConstraint.activate(regularConstraintsImageView + regularConstraintsProfileContent)
         }
-    }
+        
+     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
