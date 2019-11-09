@@ -33,6 +33,51 @@ class MemoryGameViewController: UIViewController {
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureNavigationItem()
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.isLoggedIn, object: nil, queue: nil) { (notification) in
+            DispatchQueue.global().asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 10_000)) {
+                DispatchQueue.main.async {
+                    self.showProfileViewController()
+                    User.shared.isLoggedIn = true
+                }
+            }
+        }
+    }
+    
+    func configureNavigationItem() {
+        let rightButton = UIBarButtonItem(title: "Profile",
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(profileButtonTapped))
+        
+        navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    @objc func profileButtonTapped() {
+        if User.shared.isLoggedIn {
+            showProfileViewController()
+        } else {
+            showLogInViewController()
+        }
+ 
+    }
+    
+    @objc func showProfileViewController() {
+        let userProfileVC = storyboard?.instantiateViewController(identifier: "UserProfileViewController") as! UserProfileViewController
+
+        present(userProfileVC, animated: true)
+    }
+    
+    func showLogInViewController() {
+        let logInVC = storyboard?.instantiateViewController(identifier: "LoginViewController") as! LogInViewController
+        
+        present(logInVC, animated: true)
+    }
+    
     @IBAction func touchButton(_ sender: UIButton) {
         if let cardNumber = cardButtons.firstIndex(of: sender) {
             flipCount += 1
@@ -41,7 +86,29 @@ class MemoryGameViewController: UIViewController {
         }
     }
 
-    @IBAction func newGameButton(_ sender: UIButton) {
+    @IBAction func moreButton(_ sender: UIButton) {
+        showActionSheet()
+    }
+    
+    func showActionSheet() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let retartAction = UIAlertAction(title: "Restart", style: .default) { _ in
+            self.restartGame()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let logOutAction = UIAlertAction(title: "Log Out", style: .destructive) { _ in
+            User.shared.isLoggedIn = false
+        }
+        
+        alertController.addAction(retartAction)
+        alertController.addAction(cancelAction)
+        alertController.addAction(logOutAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    func restartGame() {
         game = MemoryGame(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
         flipCount = 0
         emoji = [:]
@@ -72,6 +139,7 @@ class MemoryGameViewController: UIViewController {
                             button.backgroundColor = #colorLiteral(red: 0.9106613994, green: 0.7467906475, blue: 0.5529863238, alpha: 1)
                             button.setTitle("", for: UIControl.State.normal)
                             button.isEnabled = true
+                            
                         }
                     }
                     if game.isMatchedTwoCards {
@@ -106,3 +174,7 @@ class MemoryGameViewController: UIViewController {
     
 }
 
+extension Notification.Name {
+    static var logOut = Notification.Name("logOut")
+    static var isLoggedIn = Notification.Name("isLogeedIn")
+}

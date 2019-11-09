@@ -11,7 +11,7 @@
 		A33B84912327D95900711533 /* MemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33B84902327D95900711533 /* MemoryGame.swift */; };
 		A33B84932327DA7000711533 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33B84922327DA7000711533 /* Card.swift */; };
 		A348F4F4231E9863006AD7DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A348F4F3231E9863006AD7DF /* AppDelegate.swift */; };
-		A348F4F6231E9863006AD7DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A348F4F5231E9863006AD7DF /* ViewController.swift */; };
+		A348F4F6231E9863006AD7DF /* MemoryGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A348F4F5231E9863006AD7DF /* MemoryGameViewController.swift */; };
 		A348F4F9231E9863006AD7DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A348F4F7231E9863006AD7DF /* Main.storyboard */; };
 		A348F4FB231E9866006AD7DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A348F4FA231E9866006AD7DF /* Assets.xcassets */; };
 		A348F4FE231E9866006AD7DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A348F4FC231E9866006AD7DF /* LaunchScreen.storyboard */; };
@@ -26,7 +26,7 @@
 		A33B84922327DA7000711533 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		A348F4F0231E9863006AD7DF /* MemoryGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A348F4F3231E9863006AD7DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A348F4F5231E9863006AD7DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A348F4F5231E9863006AD7DF /* MemoryGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGameViewController.swift; sourceTree = "<group>"; };
 		A348F4F8231E9863006AD7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A348F4FA231E9866006AD7DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A348F4FD231E9866006AD7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				A335F9BC232F7CAC0096D746 /* MemoryGameThemeChooserViewController.swift */,
-				A348F4F5231E9863006AD7DF /* ViewController.swift */,
+				A348F4F5231E9863006AD7DF /* MemoryGameViewController.swift */,
 				A33B84902327D95900711533 /* MemoryGame.swift */,
 				A33B84922327DA7000711533 /* Card.swift */,
 				A350245923758483005E1458 /* LogInViewController.swift */,
@@ -162,7 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A33B84912327D95900711533 /* MemoryGame.swift in Sources */,
-				A348F4F6231E9863006AD7DF /* ViewController.swift in Sources */,
+				A348F4F6231E9863006AD7DF /* MemoryGameViewController.swift in Sources */,
 				A350245C2375A3BD005E1458 /* UserProfileViewController.swift in Sources */,
 				A350245A23758483005E1458 /* LogInViewController.swift in Sources */,
 				A350245E2375A9D9005E1458 /* User.swift in Sources */,

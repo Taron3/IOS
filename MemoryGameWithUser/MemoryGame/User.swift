@@ -12,6 +12,7 @@ import Foundation
 class User: NSObject {
     var username: String
     @objc dynamic var score: Int
+    var isLoggedIn = false
     
     static let shared = User(username: "username", score: 0)
     

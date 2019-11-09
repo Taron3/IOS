@@ -41,6 +41,7 @@ class LogInViewController: UIViewController {
         
         if username == self.username, password == self.password {
             showUserProfileViewController()
+            User.shared.isLoggedIn = true
             usernameLabel.text = ""
             passwordLabel.text = ""
         } else {
@@ -48,12 +49,12 @@ class LogInViewController: UIViewController {
         }
         
     }
-    
-    func showUserProfileViewController() {
-        let navigationController = storyboard?.instantiateViewController(identifier: "NavigationController") as! UINavigationController
 
-        navigationController.modalPresentationStyle = .overFullScreen
-        present(navigationController, animated: true)
+    func showUserProfileViewController() {
+        NotificationCenter.default.post(name: NSNotification.Name.isLoggedIn,
+                                        object: nil,
+                                        userInfo: nil)
+        dismiss(animated: false)
     }
     
     func showAlertController() {
