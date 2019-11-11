@@ -13,6 +13,7 @@ class MemoryGameViewController: UIViewController {
     @IBOutlet var cardButtons: [UIButton]!
     
     lazy var game = MemoryGame(numberOfPairsOfCards: (cardButtons.count + 1) / 2)
+    var userProfileVC: UserProfileViewController!
     
     let waitSeconds = 0.7
     var emojiChoices = "🦆🦅🦉🦇🐝🐛🐌🦋🐞🐜🦟🦗🕷🦂🐢🦎🐍🦖🦕🐙🦑🦐🦞🦀🐡🐠🐳🐬🦈🐊🐋🐅🐆🦓🦛🐘🦏🐫🐃🦘🦒🐂🐎🐖🐏🐑🦙🐐🦌🐕🐩🐈🐓🦃🦚🦜🦢🕊🐇🦝🦡🐁🐀🐿🦔🐉"
@@ -67,9 +68,12 @@ class MemoryGameViewController: UIViewController {
     }
     
     @objc func showProfileViewController() {
-        let userProfileVC = storyboard?.instantiateViewController(identifier: "UserProfileViewController") as! UserProfileViewController
-
-        present(userProfileVC, animated: true)
+        if let userProfileVC = self.userProfileVC {
+            present(userProfileVC, animated: true)
+        } else {
+            userProfileVC = storyboard?.instantiateViewController(identifier: "UserProfileViewController") as? UserProfileViewController
+            present(userProfileVC, animated: true)
+        }
     }
     
     func showLogInViewController() {
@@ -166,7 +170,7 @@ class MemoryGameViewController: UIViewController {
     
     func emoji(for card: Card) -> String {
         if emoji[card] == nil && emojiChoices.count > 0 {
-            let randomStringIndex = emojiChoices.index(emojiChoices.startIndex, offsetBy: Int.random(in: 0...emojiChoices.count)) 
+            let randomStringIndex = emojiChoices.index(emojiChoices.startIndex, offsetBy: Int.random(in: 0..<emojiChoices.count))
             emoji[card] = String(emojiChoices.remove(at: randomStringIndex))
         }
         return emoji[card] ?? "?"
@@ -175,6 +179,5 @@ class MemoryGameViewController: UIViewController {
 }
 
 extension Notification.Name {
-    static var logOut = Notification.Name("logOut")
     static var isLoggedIn = Notification.Name("isLogeedIn")
 }
